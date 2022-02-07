@@ -1,7 +1,9 @@
 package hello.springmvc.basic.request;
 
+import hello.springmvc.basic.HelloData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -88,6 +90,24 @@ public class RequestParamController {
 
         log.info("username={}, age={}", paramMap.get("username"), paramMap.get("age"));
 
+        return "ok";
+    }
+
+    //@ModelAttribute로 파라미터 값 객체에 넣기
+    @ResponseBody
+    @RequestMapping("/model-attribute-v1")
+    public String modelAttributeV1(@ModelAttribute HelloData helloData){   // HelloData 객체가 생성되고, 요청 파라미터의 값도 모두 들어가 있다
+        log.info("username={}, age={}", helloData.getUsername(), helloData.getAge());
+        log.info("helloDate={}", helloData);  //롬복 @Data가 @toString기능도 제공
+        return "ok";
+    }
+
+    //@ModelAttribute 생략 가능 - 단순 타입이 아닌 객체이면 @ModelAttribute가 동작.
+    @ResponseBody
+    @RequestMapping("/model-attribute-v2")
+    public String modelAttributeV2(HelloData helloData){   // HelloData 객체가 생성되고, 요청 파라미터의 값도 모두 들어가 있다
+        log.info("username={}, age={}", helloData.getUsername(), helloData.getAge());
+        log.info("helloDate={}", helloData);  //롬복 @Data가 @toString기능도 제공
         return "ok";
     }
 }
